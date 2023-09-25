@@ -4,12 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.redhat.rcm</groupId>
-    <artifactId>redhat-releng-tools</artifactId>
-    <version>11</version>
-  </parent>
-
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
   <version>0.1</version>
@@ -20,8 +14,11 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <version.plugin.compiler>3.8.1</version.plugin.compiler>
+    <javaVersion>11</javaVersion>
+    <javaTestVersion>${javaVersion}</javaTestVersion>
+
   </properties>
 
   <dependencyManagement>
@@ -52,6 +49,18 @@
 
   <build>
     <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${version.plugin.compiler}</version>
+          <configuration>
+            <showWarnings>true</showWarnings>
+            <debug>true</debug>
+            <source>${javaVersion}</source>
+            <target>${javaVersion}</target>
+            <testSource>${javaTestVersion}</testSource>
+            <testTarget>${javaTestVersion}</testTarget>
+          </configuration>
+        </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.2.0</version>
