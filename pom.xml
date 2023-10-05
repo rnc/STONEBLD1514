@@ -19,10 +19,21 @@
     <javaVersion>11</javaVersion>
     <javaTestVersion>${javaVersion}</javaTestVersion>
 
+    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+    <quarkus.platform.version>3.3.2</quarkus.platform.version>
+
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -38,52 +49,66 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- <dependency> -->
-    <!--   <groupId>com.github.stefanbirkner</groupId> -->
-    <!--   <artifactId>system-rules</artifactId> -->
-    <!--   <version>1.19.0</version> -->
-    <!--   <scope>test</scope> -->
-    <!-- </dependency> -->
+    <dependency>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli-shell-jline2</artifactId>
+      <version>4.7.5</version>
+    </dependency>
   </dependencies>
 
 
   <build>
     <plugins>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${version.plugin.compiler}</version>
-          <configuration>
-            <showWarnings>true</showWarnings>
-            <debug>true</debug>
-            <source>${javaVersion}</source>
-            <target>${javaVersion}</target>
-            <testSource>${javaTestVersion}</testSource>
-            <testTarget>${javaTestVersion}</testTarget>
-          </configuration>
-        </plugin>
+      <plugin>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+              <goal>generate-code</goal>
+              <goal>generate-code-tests</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${version.plugin.compiler}</version>
+        <configuration>
+          <showWarnings>true</showWarnings>
+          <debug>true</debug>
+          <source>${javaVersion}</source>
+          <target>${javaVersion}</target>
+          <testSource>${javaTestVersion}</testSource>
+          <testTarget>${javaTestVersion}</testTarget>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.2.0</version>
         <executions>
           <execution>
+            <phase>package</phase>
             <id>test-jar</id>
             <goals>
               <goal>test-jar</goal>
             </goals>
-            <phase>package</phase>
           </execution>
         </executions>
       </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <configuration>
-            <descriptors>
-              <descriptor>src/main/jar.xml</descriptor>
-            </descriptors>
-          </configuration>
           <executions>
             <execution>
+              <configuration>
+                <descriptors>
+                  <descriptor>src/main/jar.xml</descriptor>
+                </descriptors>
+              </configuration>
               <phase>package</phase>
               <goals>
                 <goal>single</goal>
