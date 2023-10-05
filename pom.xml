@@ -44,14 +44,15 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.15</version>
+        <scope>test</scope>
+      </dependency>
     <dependency>
       <groupId>info.picocli</groupId>
-      <artifactId>picocli-shell-jline2</artifactId>
+      <artifactId>picocli</artifactId>
       <version>4.7.5</version>
     </dependency>
   </dependencies>
